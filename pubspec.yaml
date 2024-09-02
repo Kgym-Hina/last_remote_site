@@ -30,3 +30,6 @@ flutter:
   assets:
     - assets/svg/header.svg
     - assets/svg/icon.svg
+    - assets/images/qsl/1.png
+    - assets/images/qsl/2.png
+    - assets/images/qsl/3.png

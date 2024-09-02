@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:last_remote_site/models/project_card_widget_data.dart';
+import 'package:last_remote_site/widgets/qsl_card_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'widgets/ProjectCardWidget.dart';
+import 'widgets/project_card_widget.dart';
 
 void main() {
   runApp(const LastRemoteWebApp());
@@ -48,6 +49,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
+  final PageController _pageController = PageController();
   bool _showAppBarTitle = false;
 
   @override
@@ -113,6 +115,66 @@ class _HomePageState extends State<HomePage> {
             buildHeader(context, isSmallScreen),
             const SizedBox(height: 50),
             buildBodyAbout(context),
+            const SizedBox(height: 50),
+            Text("My QSL Cards",
+                style: Theme.of(context).textTheme.headlineMedium),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: isSmallScreen ? 250 : 400,
+              child: Stack(
+                children: [
+                  PageView(
+                    controller: _pageController,
+                    children: const [
+                      QslCardWidget(imagePath: "assets/images/qsl/1.png"),
+                      QslCardWidget(imagePath: "assets/images/qsl/2.png"),
+                      QslCardWidget(imagePath: "assets/images/qsl/3.png"),
+                    ],
+                  ),
+                  Positioned(
+                    left: 20,
+                    top: 0,
+                    bottom: 0,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_left),
+                      onPressed: () {
+                        _pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    right: 20,
+                    top: 0,
+                    bottom: 0,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_right),
+                      onPressed: () {
+                        _pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+                onPressed: () => {
+                      // Pop up a dialog
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const AlertDialog(
+                                title: Text("Get an eQSL"),
+                                content: Text("This feature is not available yet."),);
+                          })
+                    },
+                child: const Text("Get an eQSL")),
             const SizedBox(height: 50),
             buildBodyProjects(context, isSmallScreen),
             const SizedBox(height: 50),
@@ -221,9 +283,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16),
               Text.rich(
-                TextSpan(text: "I mainly use",
-                    style: bodyFont,
-                    children: [
+                TextSpan(text: "I mainly use", style: bodyFont, children: [
                   TextSpan(
                     text: " C++, C# and Dart.",
                     style: TextStyle(color: Colors.purple.shade200),
@@ -282,32 +342,33 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List<ProjectCardWidgetData> getProjects(){
+  List<ProjectCardWidgetData> getProjects() {
     return [
       ProjectCardWidgetData(
         title: "ArcadeLink",
         description: "A project links arcade games to the web",
-        url:  Uri.parse("https://github.com/ArcadeLink"),
+        url: Uri.parse("https://github.com/ArcadeLink"),
       ),
       ProjectCardWidgetData(
         title: "Ham Toolset (WIP)",
         description: "A toolset for amateur radio operators.",
-        url:  Uri.parse("https://github.com/Kgym-Hina/bg8lrr_ham_toolset"),
+        url: Uri.parse("https://github.com/Kgym-Hina/bg8lrr_ham_toolset"),
       ),
       ProjectCardWidgetData(
         title: "Schiphalast",
-        description: "Mobile MUG made for multiplayer. Cross-platform. Made with Unity",
-        url:  Uri.parse("https://www.taptap.cn/app/217268"),
+        description:
+            "Mobile MUG made for multiplayer. Cross-platform. Made with Unity",
+        url: Uri.parse("https://www.taptap.cn/app/217268"),
       ),
       ProjectCardWidgetData(
         title: "ArcEcho (Planning)",
         description: "A project that helps staffs in e-sports events",
-        url:  Uri.parse(""),
+        url: Uri.parse(""),
       ),
       ProjectCardWidgetData(
         title: "TicTac (Planning)",
         description: "A game that helps people to learn Morse code",
-        url:  Uri.parse(""),
+        url: Uri.parse(""),
       )
     ];
   }
@@ -323,19 +384,27 @@ class _HomePageState extends State<HomePage> {
             height: isSmallScreen ? null : 200,
             child: isSmallScreen
                 ? Column(
-              children: [
-                for (var project in getProjects())
-                  ProjectCardWidget(title: project.title, description: project.description, url: project.url,),
-              ],
-            )
+                    children: [
+                      for (var project in getProjects())
+                        ProjectCardWidget(
+                          title: project.title,
+                          description: project.description,
+                          url: project.url,
+                        ),
+                    ],
+                  )
                 : ListView(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              children: [
-                for (var project in getProjects())
-                  ProjectCardWidget(title: project.title, description: project.description, url: project.url,),
-              ],
-            ),
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    children: [
+                      for (var project in getProjects())
+                        ProjectCardWidget(
+                          title: project.title,
+                          description: project.description,
+                          url: project.url,
+                        ),
+                    ],
+                  ),
           ),
         ),
       ],
