@@ -292,7 +292,7 @@ class _HomePageState extends State<HomePage> {
             height: isSmallScreen ? null : 200,
             child: ListView(
               scrollDirection: isSmallScreen ? Axis.vertical : Axis.horizontal,
-              shrinkWrap: true,
+              shrinkWrap: isSmallScreen ? false : true,
               children: [
                 ProjectCardWidget(
                   title: "ArcadeLink",
