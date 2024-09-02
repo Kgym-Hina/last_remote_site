@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:last_remote_site/models/project_card_widget_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'widgets/ProjectCardWidget.dart';
@@ -281,6 +282,36 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  List<ProjectCardWidgetData> getProjects(){
+    return [
+      ProjectCardWidgetData(
+        title: "ArcadeLink",
+        description: "A project links arcade games to the web",
+        url:  Uri.parse("https://github.com/ArcadeLink"),
+      ),
+      ProjectCardWidgetData(
+        title: "Ham Toolset (WIP)",
+        description: "A toolset for amateur radio operators.",
+        url:  Uri.parse("https://github.com/Kgym-Hina/bg8lrr_ham_toolset"),
+      ),
+      ProjectCardWidgetData(
+        title: "Schiphalast",
+        description: "Mobile MUG made for multiplayer. Cross-platform. Made with Unity",
+        url:  Uri.parse("https://www.taptap.cn/app/217268"),
+      ),
+      ProjectCardWidgetData(
+        title: "ArcEcho (Planning)",
+        description: "A project that helps staffs in e-sports events",
+        url:  Uri.parse(""),
+      ),
+      ProjectCardWidgetData(
+        title: "TicTac (Planning)",
+        description: "A game that helps people to learn Morse code",
+        url:  Uri.parse(""),
+      )
+    ];
+  }
+
   Column buildBodyProjects(BuildContext context, bool isSmallScreen) {
     return Column(
       children: [
@@ -290,37 +321,19 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
             height: isSmallScreen ? null : 200,
-            child: ListView(
-              scrollDirection: isSmallScreen ? Axis.vertical : Axis.horizontal,
-              shrinkWrap: isSmallScreen ? false : true,
+            child: isSmallScreen
+                ? Column(
               children: [
-                ProjectCardWidget(
-                  title: "ArcadeLink",
-                  description: "A project links arcade games to the web",
-                  url: Uri.parse("https://github.com/ArcadeLink"),
-                ),
-                ProjectCardWidget(
-                  title: "Ham Toolset (WIP)",
-                  description: "A toolset for amateur radio operators.",
-                  url: Uri.parse(
-                      "https://github.com/Kgym-Hina/bg8lrr_ham_toolset"),
-                ),
-                ProjectCardWidget(
-                  title: "Schiphalast",
-                  description:
-                      "Mobile MUG made for multiplayer. Cross-platform. Made with Unity",
-                  url: Uri.parse("https://www.taptap.cn/app/217268"),
-                ),
-                ProjectCardWidget(
-                  title: "ArcEcho (Planning)",
-                  description: "A project that helps staffs in e-sports events",
-                  url: Uri.parse(""),
-                ),
-                ProjectCardWidget(
-                  title: "TicTac (Planning)",
-                  description: "A game that helps people to learn Morse code",
-                  url: Uri.parse(""),
-                ),
+                for (var project in getProjects())
+                  ProjectCardWidget(title: project.title, description: project.description, url: project.url,),
+              ],
+            )
+                : ListView(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              children: [
+                for (var project in getProjects())
+                  ProjectCardWidget(title: project.title, description: project.description, url: project.url,),
               ],
             ),
           ),
