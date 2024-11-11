@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:last_remote_site/ham_toolkit_page.dart';
 import 'package:last_remote_site/models/project_card_widget_data.dart';
 import 'package:last_remote_site/widgets/qsl_card_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,7 +22,10 @@ class LastRemoteWebApp extends StatelessWidget {
       themeMode: ThemeMode.dark,
       theme: buildThemeData(false),
       darkTheme: buildThemeData(true),
-      home: const HomePage(title: 'Last Remote'),
+      routes: {
+        '/': (context) => const HomePage(title: 'Last Remote'),
+        '/ham': (context) => const HamToolkitPage(),
+      },
     );
   }
 
@@ -347,28 +351,23 @@ class _HomePageState extends State<HomePage> {
       ProjectCardWidgetData(
         title: "ArcadeLink",
         description: "A project links arcade games to the web",
-        url: Uri.parse("https://github.com/ArcadeLink"),
+        url: "https://github.com/ArcadeLink",
       ),
       ProjectCardWidgetData(
-        title: "Ham Toolset (WIP)",
+        title: "Ham Toolset",
         description: "A toolset for amateur radio operators.",
-        url: Uri.parse("https://github.com/Kgym-Hina/bg8lrr_ham_toolset"),
+        route: "/ham",
       ),
       ProjectCardWidgetData(
         title: "Schiphalast",
         description:
             "Mobile MUG made for multiplayer. Cross-platform. Made with Unity",
-        url: Uri.parse("https://www.taptap.cn/app/217268"),
-      ),
-      ProjectCardWidgetData(
-        title: "ArcEcho (Planning)",
-        description: "A project that helps staffs in e-sports events",
-        url: Uri.parse(""),
+        url: "https://www.taptap.cn/app/217268",
       ),
       ProjectCardWidgetData(
         title: "TicTac (Planning)",
         description: "A game that helps people to learn Morse code",
-        url: Uri.parse(""),
+        url: "",
       )
     ];
   }
@@ -389,7 +388,8 @@ class _HomePageState extends State<HomePage> {
                         ProjectCardWidget(
                           title: project.title,
                           description: project.description,
-                          url: project.url,
+                          url: project.route ?? project.url!,
+                          isRoute: project.route != null,
                         ),
                     ],
                   )
@@ -401,7 +401,8 @@ class _HomePageState extends State<HomePage> {
                         ProjectCardWidget(
                           title: project.title,
                           description: project.description,
-                          url: project.url,
+                          url: project.route ?? project.url!,
+                          isRoute: project.route != null,
                         ),
                     ],
                   ),

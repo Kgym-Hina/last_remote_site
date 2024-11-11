@@ -5,13 +5,15 @@ import 'package:url_launcher/url_launcher.dart';
 class ProjectCardWidget extends StatelessWidget {
   final String title;
   final String description;
-  final Uri url;
+  final String url;
+  final bool isRoute;
 
   const ProjectCardWidget({
     super.key,
     required this.title ,
     required this.description,
-    required this.url
+    required this.url,
+    required this.isRoute
   });
 
   @override
@@ -33,7 +35,11 @@ class ProjectCardWidget extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      _launchURL();
+                      if (isRoute) {
+                        Navigator.pushNamed(context, url);
+                      } else {
+                        _launchURL();
+                      }
                     },
                     child: const Text("Learn More >>"),
                   ),
@@ -47,10 +53,11 @@ class ProjectCardWidget extends StatelessWidget {
   }
 
   void _launchURL() async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
+    var uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
-      throw 'Could not launch $url';
+      throw 'Could not launch $uri';
     }
   }
 }
