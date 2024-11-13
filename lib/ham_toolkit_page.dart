@@ -14,15 +14,36 @@ class _HamToolkitPageState extends State<HamToolkitPage> {
       appBar: AppBar(
         title: const Text('Ham Toolkit'),
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Ham Toolkit Page',
+      body:  Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(
+            height: 500,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Ham Toolkit',
+                      style: Theme.of(context).textTheme.displayMedium
+                  ),
+                  Text(
+                      '业余无线电爱好者必备的工具集',
+                      style: Theme.of(context).textTheme.titleMedium
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          
+          const Card.filled(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text("sadr"),
+            ),
+          )
+
+        ],
       ),
     );
   }

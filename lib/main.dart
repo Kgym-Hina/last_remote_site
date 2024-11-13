@@ -5,7 +5,7 @@ import 'package:last_remote_site/ham_toolkit_page.dart';
 import 'package:last_remote_site/models/project_card_widget_data.dart';
 import 'package:last_remote_site/widgets/qsl_card_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:badges/badges.dart' as badges;
 import 'widgets/project_card_widget.dart';
 
 void main() {
@@ -117,7 +117,21 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             buildHeader(context, isSmallScreen),
-            const SizedBox(height: 50),
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: badges.Badge(
+                badgeContent: const Text("New"),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(onPressed: () {
+                        launchUrl(Uri.parse("https://blog.last-remote.xyz"));
+                      }, child: const Text("Blog")),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             buildBodyAbout(context),
             const SizedBox(height: 50),
             Text("My QSL Cards",
@@ -201,11 +215,11 @@ class _HomePageState extends State<HomePage> {
           const Text("© 2024 Last-Remote. All rights reserved."),
           GestureDetector(
             child: Text(
-              "Connect with me: i@bg8lrr.site (Click)",
+              "Connect with me: i@bg8lrr.link (Click)",
               style: TextStyle(color: Colors.purple.shade200),
             ),
             onTap: () {
-              launchUrl(Uri.parse("mailto:i@bg8lrr.site"));
+              launchUrl(Uri.parse("mailto:i@bg8lrr.link"));
             },
           ),
         ],
