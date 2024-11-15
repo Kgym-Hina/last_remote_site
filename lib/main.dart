@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  var bodyFont = GoogleFonts.eduVicWaNtBeginner(
+  var bodyFont = GoogleFonts.jetBrainsMono(
     textStyle: const TextStyle(fontSize: 20),
     color: Colors.white,
   );
@@ -117,25 +117,10 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             buildHeader(context, isSmallScreen),
-            Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: badges.Badge(
-                badgeContent: const Text("New"),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(onPressed: () {
-                        launchUrl(Uri.parse("https://blog.last-remote.xyz"));
-                      }, child: const Text("Blog")),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            const SizedBox(height: 50),
             buildBodyAbout(context),
             const SizedBox(height: 50),
-            Text("My QSL Cards",
-                style: Theme.of(context).textTheme.headlineMedium),
+            buildSectionTitle(context, "QSL Cards"),
             const SizedBox(height: 16),
             SizedBox(
               height: isSmallScreen ? 250 : 400,
@@ -256,6 +241,22 @@ class _HomePageState extends State<HomePage> {
                     style: Theme.of(context).textTheme.headlineMedium),
               ],
             ),
+            const SizedBox(height: 150),
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: badges.Badge(
+                badgeContent: const Text("New"),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton(onPressed: () {
+                        launchUrl(Uri.parse("https://blog.last-remote.xyz"));
+                      }, child: const Text("Blog")),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ],
@@ -264,8 +265,9 @@ class _HomePageState extends State<HomePage> {
 
   Column buildBodyAbout(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("About Me", style: Theme.of(context).textTheme.headlineMedium),
+        buildSectionTitle(context, "About Me"),
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -345,7 +347,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 16),
               Text(
-                "Currently working on a project called Ham Toolset. It is a toolset for amateur radio operators.",
+                "Currently working on a project called Ham Toolkit. It is a toolset for amateur radio operators.",
                 style: bodyFont,
               ),
               const SizedBox(height: 50),
@@ -360,28 +362,55 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Row buildSectionTitle(BuildContext context, String title) {
+    return Row(
+        children: [
+          Text(title, style: Theme.of(context).textTheme.displayLarge),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Container(
+              height: 2,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.purple.shade200,
+                    style: BorderStyle.solid,
+                    width: 2,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+  }
+
   List<ProjectCardWidgetData> getProjects() {
     return [
       ProjectCardWidgetData(
         title: "ArcadeLink",
         description: "A project links arcade games to the web",
         url: "https://github.com/ArcadeLink",
+        textTheme: GoogleFonts.jetBrainsMonoTextTheme(),
       ),
       ProjectCardWidgetData(
         title: "Ham Toolset",
         description: "A toolset for amateur radio operators.",
         route: "/ham",
+        textTheme: GoogleFonts.jetBrainsMonoTextTheme(),
       ),
       ProjectCardWidgetData(
         title: "Schiphalast",
         description:
             "Mobile MUG made for multiplayer. Cross-platform. Made with Unity",
         url: "https://www.taptap.cn/app/217268",
+        textTheme: GoogleFonts.jetBrainsMonoTextTheme(),
       ),
       ProjectCardWidgetData(
         title: "TicTac (Planning)",
         description: "A game that helps people to learn Morse code",
         url: "",
+        textTheme: GoogleFonts.jetBrainsMonoTextTheme(),
       )
     ];
   }
@@ -389,7 +418,7 @@ class _HomePageState extends State<HomePage> {
   Column buildBodyProjects(BuildContext context, bool isSmallScreen) {
     return Column(
       children: [
-        Text("My Projects", style: Theme.of(context).textTheme.headlineMedium),
+        buildSectionTitle(context, "Projects"),
         const SizedBox(height: 50),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -404,6 +433,7 @@ class _HomePageState extends State<HomePage> {
                           description: project.description,
                           url: project.route ?? project.url!,
                           isRoute: project.route != null,
+                          textTheme: project.textTheme,
                         ),
                     ],
                   )
@@ -417,6 +447,7 @@ class _HomePageState extends State<HomePage> {
                           description: project.description,
                           url: project.route ?? project.url!,
                           isRoute: project.route != null,
+                          textTheme: project.textTheme,
                         ),
                     ],
                   ),

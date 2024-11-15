@@ -7,13 +7,15 @@ class ProjectCardWidget extends StatelessWidget {
   final String description;
   final String url;
   final bool isRoute;
+  final TextTheme? textTheme;
 
   const ProjectCardWidget({
     super.key,
     required this.title ,
     required this.description,
     required this.url,
-    required this.isRoute
+    required this.isRoute,
+    required this.textTheme,
   });
 
   @override
@@ -26,9 +28,9 @@ class ProjectCardWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: Theme.of(context).textTheme.headlineMedium),
+              Text(title, style: textTheme?.headlineLarge?.copyWith(color: Colors.white)),
               const SizedBox(height: 20),
-              Text(description, style: Theme.of(context).textTheme.bodyLarge),
+              Text(description, style: textTheme?.bodyMedium?.copyWith(color: Colors.white)),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -41,7 +43,7 @@ class ProjectCardWidget extends StatelessWidget {
                         _launchURL();
                       }
                     },
-                    child: const Text("Learn More >>"),
+                    child: Text("Learn More >>", style: textTheme?.bodyMedium?.copyWith(color: Colors.purple.shade300),),
                   ),
                 ],
               )
